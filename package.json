@@ -1,6 +1,6 @@
 {
   "name": "next-biz-date",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "returns the next future business date based on a reference date and a number of days to look into the future and given array of holidays",
   "main": "main.js",
   "scripts": {
