@@ -4,8 +4,7 @@
   "description": "returns the next future business date based on a reference date and a number of days to look into the future and given array of holidays",
   "main": "main.js",
   "scripts": {
-    "test": "nyc --reporter=text --reporter=html mocha",
-    "test-html": "nyc --reporter=html mocha"
+    "test": "nyc --reporter=text --reporter=html mocha"
   },
   "keywords": [
     "next",
@@ -22,10 +21,10 @@
     "url": "https://github.com/janunezc/next-biz-date/issues"
   },
   "dependencies": {
-    "moment": "^2.29.1",
-    "nyc": "^15.1.0"
+    "moment": "^2.29.1"
   },
   "devDependencies": {
+    "nyc": "^15.1.0",
     "mocha": "^8.2.1"
   }
 }
