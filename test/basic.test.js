@@ -3,12 +3,12 @@ const moment = require("moment");
 const nbd = require("../main");
 
 const holidays = [
+    "2020-12-17",
     "2020-12-25",
     "2020-12-28",
     "2021-01-01",
     "2021-01-04"
 ];
-
 
 describe("FindBizDate", () => {
     it("Should Find Biz Date based on CandidateDate", () => {
@@ -93,7 +93,9 @@ describe("FindNextBizDate", () => {
             {initialDate: "2020-12-26", offset: 5, expectedDate: "2020-12-21"}, 
             {initialDate: "2020-12-26", offset: 6, expectedDate: "2020-12-18"}, 
             {initialDate: "2020-12-26", offset: 7, expectedDate: "2020-12-18"}, 
-            {initialDate: "2020-12-26", offset: 8, expectedDate: "2020-12-17"}
+            {initialDate: "2020-12-26", offset: 8, expectedDate: "2020-12-18"},
+            {initialDate: "2020-12-26", offset: 9, expectedDate: "2020-12-16"},
+            {initialDate: "2020-12-26", offset: 10, expectedDate: "2020-12-16"}
         ];
 
         forwardCases.forEach((caseItem, i) => {
