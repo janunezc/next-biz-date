@@ -9,10 +9,10 @@ cd nbd-test
 npm i next-biz date
 cd node_modules
 cd next-biz-date
-node test.js
+npm test
 ```
 
-You can look at the test.js file there for an example on usage, which consists in creating an array of dates (strings with yyyy-mm-dd format) that then is passed to the `NextBizDay` function along with a cadidateDate specification.
+You can look at the test.js file there for an example on usage, which consists in creating an array of dates (strings with yyyy-mm-dd format) that then is passed to the `NextBizDay()` function along with a cadidateDate specification.
 
 
 ```
@@ -81,7 +81,7 @@ function test() {
     if(rDate.isSame(expectedResults[i])){
       console.log(tDate, rDate, "OK");
     } else {
-      console.error("FAIL");
+      console.error("FAIL",tDate, rDate);
     }
     results.push({tDate, rDate});
   });
