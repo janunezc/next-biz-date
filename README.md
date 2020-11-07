@@ -29,11 +29,11 @@ The basic outline is:
 
 See the file example-use.js within the package as an example of how to use it. Notice `require('../next-biz-date');` would be changed to `require('next-biz-date');`  under normal conditions.
 
-For our example nbd-test folder you can create the following example.js file in the root of the nbd-test package.
+For our example nbd-test folder you can create the following `example.js` file in the root of the nbd-test package.
 
 ```
 const moment = require("moment");
-const nbd = require("../next-biz-date");
+const nbd = require("next-biz-date");
 
 const holidays = [
     "2020-12-17",
