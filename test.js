@@ -63,7 +63,7 @@ function test() {
     if(rDate.isSame(expectedResults[i])){
       console.log(tDate, rDate, "OK");
     } else {
-      console.error("FAIL");
+      console.error("FAIL",tDate, rDate);
     }
     results.push({tDate, rDate});
   });
