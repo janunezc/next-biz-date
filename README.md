@@ -24,7 +24,7 @@ The basic outline is:
 
 ```
 const moment = require("moment");
-const nbd = require("./main");
+const nbd = require("next-biz-date");
 
 function test() {
   console.log("--------------------------------------------");
