@@ -59,7 +59,7 @@ function test() {
 
   targetCases.forEach((item, i) => {
     let tDate = moment(item);
-    let rDate = nbd.NextBizDay(tDate, holidaysArray);
+    let rDate = nbd.FindNextBizDate(tDate, holidaysArray);
     if(rDate.isSame(expectedResults[i])){
       console.log(tDate, rDate, "OK");
     } else {

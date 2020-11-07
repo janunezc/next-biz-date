@@ -8,7 +8,7 @@
    * @param {moment} holidaysArray
    * @returns {moment}
    */
-  function nextBizDay(candidateDate, holidaysArray) {
+  function findNextBizDate(candidateDate, holidaysArray) {
     let mCandidateDate = moment(candidateDate);
     let dow = mCandidateDate.day();
 
@@ -33,7 +33,7 @@
       if (mHoliday.isSameOrAfter(mCandidateDate)) {
         if (mCandidateDate.isSame(mHoliday)) {
           let remainingHolidays = holidaysArray.slice(i + 1);
-          return nextBizDay(mCandidateDate.add(1, 'day'), remainingHolidays);
+          return findNextBizDate(mCandidateDate.add(1, 'day'), remainingHolidays);
         }
       }
     }
@@ -41,5 +41,5 @@
     return mCandidateDate;
   }
 
-  exports.NextBizDay = nextBizDay;
+  exports.FindNextBizDate = findNextBizDate;
 })();
