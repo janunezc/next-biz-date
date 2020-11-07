@@ -14,7 +14,12 @@ npm run test-old
 
 If you have mocha installed (`npm i mocha -g`) you can also run `npm test` or simply `mocha` to execute the unit tests.
 
-You can look at the test.js file there for an example on usage, which consists in creating an array of dates (strings with yyyy-mm-dd format) that then is passed to the `NextBizDay()` function along with a cadidateDate specification.
+You can look at the test.js file there for an example on usage, which consists in creating an array of dates (strings with yyyy-mm-dd format) that then is passed to the `FindNextBizDate()` function along with a cadidateDate specification.
+
+The basic outline is:
+1. Define candidate date
+2. Define array of holidays (strings with yyyy-mm-dd format)
+3. Call the FindNextBizDate() function passing the candidateDate and the holidaysArray you defined.
 
 
 ```
@@ -79,7 +84,7 @@ function test() {
 
   targetCases.forEach((item, i) => {
     let tDate = moment(item);
-    let rDate = nbd.NextBizDay(tDate, holidaysArray);
+    let rDate = nbd.FindNextBizDate(tDate, holidaysArray);
     if(rDate.isSame(expectedResults[i])){
       console.log(tDate, rDate, "OK");
     } else {
