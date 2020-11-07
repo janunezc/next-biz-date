@@ -12,10 +12,10 @@
 
         if (direction === "FORWARD") {
             let targetDate = moment(baseDate).add(offset, 'days');
-            return findBizDate(targetDate, holidaysArray);
+            return findBizDate(targetDate, holidaysArray, direction);
         } else {
             let targetDate = moment(baseDate).add(-1 * offset, 'days');
-            return findBizDate(targetDate, holidaysArray);
+            return findBizDate(targetDate, holidaysArray, direction);
         }
     }
 
@@ -34,6 +34,7 @@
             direction = "FORWARD";
         }
 
+        console.log("DIRECTION:", direction);
         //FIX WEEKENDS
         if (dow === 6 || dow === 0) {
             if (dow === 0)
@@ -62,15 +63,21 @@
                 return value >= 0;
             };
         }
-
+        console.log({initial, increment, exitCondition});
         for (var i = initial; exitCondition(i); i += increment) {
             let item = holidaysArray[i];
             const mHoliday = moment(item);
 
             if (mHoliday.isSameOrAfter(mCandidateDate)) {
                 if (mCandidateDate.isSame(mHoliday)) {
-                    let remainingHolidays = holidaysArray.slice(i + 1);
-                    return findBizDate(mCandidateDate.add(1, 'day'), remainingHolidays);
+                    let remainingHolidays;
+                    if (direction === "FORWARD") {
+                        remainingHolidays = holidaysArray.slice(i + 1);
+                    } else {
+                        remainingHolidays = holidaysArray.slice(0, holidaysArray.length - 2);
+                    }
+
+                    return findBizDate(mCandidateDate.add(1, 'day'), remainingHolidays, direction);
                 }
             }
         }

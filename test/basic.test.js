@@ -82,4 +82,24 @@ describe("FindNextBizDate", () => {
             assert.equal(result.isSame(caseItem.expectedDate), true);
         });
     });
+    
+    it("Should be able to handle offset backward cases",()=>{
+        let forwardCases = [
+            {initialDate: "2020-12-26", offset: 0, expectedDate: "2020-12-24"},
+            {initialDate: "2020-12-26", offset: 1, expectedDate: "2020-12-24"},
+            {initialDate: "2020-12-26", offset: 2, expectedDate: "2020-12-24"},
+            {initialDate: "2020-12-26", offset: 3, expectedDate: "2020-12-23"},
+            {initialDate: "2020-12-26", offset: 4, expectedDate: "2020-12-22"},
+            {initialDate: "2020-12-26", offset: 5, expectedDate: "2020-12-21"}, 
+            {initialDate: "2020-12-26", offset: 6, expectedDate: "2020-12-18"}, 
+            {initialDate: "2020-12-26", offset: 7, expectedDate: "2020-12-18"}, 
+            {initialDate: "2020-12-26", offset: 8, expectedDate: "2020-12-17"}
+        ];
+
+        forwardCases.forEach((caseItem, i) => {
+            let result = nbd.FindNextBizDate(caseItem.initialDate, holidays, caseItem.offset, "BACKWARDS");
+            console.log("RESULT", moment(caseItem.initialDate), caseItem.offset, moment(caseItem.expectedDate), result);
+            assert.equal(result.isSame(caseItem.expectedDate), true);
+        });         
+    });
 });
