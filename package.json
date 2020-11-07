@@ -4,7 +4,8 @@
   "description": "returns the next future business date based on a reference date and a number of days to look into the future and given array of holidays",
   "main": "main.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "mocha",
+    "test-old": "node test.js"
   },
   "keywords": [
     "next",
@@ -22,5 +23,8 @@
   },
   "dependencies": {
     "moment": "^2.29.1"
+  },
+  "devDependencies": {
+    "mocha": "^8.2.1"
   }
 }

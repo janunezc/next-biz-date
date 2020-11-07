@@ -9,8 +9,10 @@ cd nbd-test
 npm i next-biz date
 cd node_modules
 cd next-biz-date
-npm test
+npm run test-old
 ```
+
+If you have mocha installed (`npm i mocha -g`) you can also run `npm test` or simply `mocha` to execute the unit tests.
 
 You can look at the test.js file there for an example on usage, which consists in creating an array of dates (strings with yyyy-mm-dd format) that then is passed to the `NextBizDay()` function along with a cadidateDate specification.
 
