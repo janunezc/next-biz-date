@@ -11,8 +11,15 @@
     "business",
     "day"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/janunezc/next-biz-date.git"
+  },  
   "author": "Jose Nunez",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/janunezc/next-biz-date/issues"
+  },  
   "dependencies": {
     "moment": "^2.29.1"
   }
