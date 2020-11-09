@@ -12,57 +12,38 @@ const holidays = [
 
 describe("FindBizDate", () => {
   it("Should Find Biz Date based on CandidateDate", () => {
+
     const happyPathCases = [
-      "2020-12-20",
-      "2020-12-21",
-      "2020-12-22",
-      "2020-12-23",
-      "2020-12-24",
-      "2020-12-25",
-      "2020-12-26",
-      "2020-12-27",
-      "2020-12-28",
-      "2020-12-29",
-      "2020-12-30",
-      "2020-12-31",
-      "2021-01-01",
-      "2021-01-02",
-      "2021-01-03",
-      "2021-01-04",
-      "2021-01-05"
+      {candidateDate: "2020-12-20" /*SUN W*/, expectedResult: "2020-12-21"},
+      {candidateDate: "2020-12-21" /*MON B*/, expectedResult: "2020-12-21"},
+      {candidateDate: "2020-12-22" /*TUE B*/, expectedResult: "2020-12-22"},
+      {candidateDate: "2020-12-23" /*WED B*/, expectedResult: "2020-12-23"},
+      {candidateDate: "2020-12-24" /*THU B*/, expectedResult: "2020-12-24"},
+      {candidateDate: "2020-12-25" /*FRI H*/, expectedResult: "2020-12-29"},
+      {candidateDate: "2020-12-26" /*SAT W*/, expectedResult: "2020-12-29"},
+      {candidateDate: "2020-12-27" /*SUN W*/, expectedResult: "2020-12-29"},
+      {candidateDate: "2020-12-28" /*MON H*/, expectedResult: "2020-12-29"},
+      {candidateDate: "2020-12-29" /*TUE B*/, expectedResult: "2020-12-29"},
+      {candidateDate: "2020-12-30" /*WED B*/, expectedResult: "2020-12-30"},
+      {candidateDate: "2020-12-31" /*THU B*/, expectedResult: "2020-12-31"},
+      {candidateDate: "2021-01-01" /*FRI H*/, expectedResult: "2021-01-05"},
+      {candidateDate: "2021-01-02" /*SAT W*/, expectedResult: "2021-01-05"},
+      {candidateDate: "2021-01-03" /*SUN W*/, expectedResult: "2021-01-05"},
+      {candidateDate: "2021-01-04" /*MON H*/, expectedResult: "2021-01-05"},
+      {candidateDate: "2021-01-05" /*TUE B*/, expectedResult: "2021-01-05"}
     ];
 
-    const expectedResults = [
-      "2020-12-21",
-      "2020-12-21",
-      "2020-12-22",
-      "2020-12-23",
-      "2020-12-24",
-      "2020-12-29",
-      "2020-12-29",
-      "2020-12-29",
-      "2020-12-29",
-      "2020-12-29",
-      "2020-12-30",
-      "2020-12-31",
-      "2021-01-05",
-      "2021-01-05",
-      "2021-01-05",
-      "2021-01-05",
-      "2021-01-05"
-    ];
-
-    console.log("TEST:", {happyPathCases, holidays, expectedResults});
+    console.log("TEST:", {happyPathCases, holidays});
 
     let results = [];
 
     happyPathCases.forEach((item, i) => {
-      let tDate = moment(item);
-      let rDate = nbd.FindBizDate(tDate, holidays);
+      let candidateDate = moment(item.candidateDate);
+      let resultDate = nbd.FindBizDate(candidateDate, holidays);
 
-      console.log("Testing", tDate, expectedResults[i], rDate);
-      assert.equal(rDate.isSame(expectedResults[i]), true);
-      results.push({tDate, rDate});
+      console.log("Testing", item, resultDate);
+      assert.equal(resultDate.isSame(moment(item.expectedResult)), true);
+      results.push({candidateDate, resultDate});
     });
   });
 });

@@ -52,7 +52,6 @@
 
     //REACT TO NO HoliDays array
     if (holidaysArray === undefined || holidaysArray.length === undefined || holidaysArray.length === 0) {
-      console.warn("Warning: Holidays Array is Empty");
       return mCandidateDate;
     }
 
