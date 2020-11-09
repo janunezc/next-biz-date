@@ -1,14 +1,14 @@
 (() => {
   const moment = require("moment");
 
-/**
- * Find a business date by shifting a base date by a provided offset in the provided direction. It leverages the findBizDate() function.
- * @param {String} baseDate String of YYYY-MM-DD format or Moment object
- * @param {Array} holidaysArray Array of strings of YYYY-MM-DD format
- * @param {Int} offset
- * @param {String} direction with content of "FORWARD" or "BACKWARDS"
- * @returns {main=>#1.findBizDate.mCandidateDate|moment}
- */
+  /**
+   * Find a business date by shifting a base date by a provided offset in the provided direction. It leverages the findBizDate() function.
+   * @param {String} baseDate String of YYYY-MM-DD format or Moment object
+   * @param {Array} holidaysArray Array of strings of YYYY-MM-DD format
+   * @param {Int} offset
+   * @param {String} direction with content of "FORWARD" or "BACKWARDS"
+   * @returns {main=>#1.findBizDate.mCandidateDate|moment}
+   */
   function findNextBizDate(baseDate, holidaysArray, offset, direction) {
     if (!offset) {
       offset = 0;
@@ -52,26 +52,13 @@
 
     //REACT TO NO HoliDays array
     if (holidaysArray === undefined || holidaysArray.length === undefined || holidaysArray.length === 0) {
+      console.warn("Holidays Array is Empty");
       return mCandidateDate;
     }
 
-    //SCAN the HolyDays array and use recursion
-    let initial, increment, exitCondition;
-    if (direction === "FORWARD") {
-      initial = 0;
-      increment = 1;
-      exitCondition = (value) => {
-        return value < holidaysArray.length;
-      };
-    } else {
-      initial = holidaysArray.length - 1;
-      increment = -1;
-      exitCondition = (value) => {
-        return value >= 0;
-      };
-    }
-    
-    for (var i = initial; exitCondition(i); i += increment) {
+    let directionLogic = getDirectionLogic(direction, holidaysArray);
+
+    for (var i = directionLogic.initial; directionLogic.exitCondition(i); i += directionLogic.increment) {
       let item = holidaysArray[i];
       const mHoliday = moment(item);
 
@@ -91,7 +78,25 @@
 
     return mCandidateDate;
   }
-  
+
+  function getDirectionLogic(direction, holidaysArray) {
+    let result  = {};
+    if (direction === "FORWARD") {
+      result.initial = 0;
+      result.increment = 1;
+      result.exitCondition = (value) => {
+        return value < holidaysArray.length;
+      };
+    } else {
+      result.initial = holidaysArray.length - 1;
+      result.increment = -1;
+      result.exitCondition = (value) => {
+        return value >= 0;
+      };
+    }
+    return result;
+  }
+
   exports.FindBizDate = findBizDate;
   exports.FindNextBizDate = findNextBizDate;
 })();
