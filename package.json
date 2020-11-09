@@ -1,7 +1,7 @@
 {
   "name": "next-biz-date",
   "version": "1.0.1",
-  "description": "returns the next future business date based on a reference date and a number of days to look into the future and given array of holidays",
+  "description": "Returns the next business date (future or past based on direction as FORWARD or BACKWARDS) for a given reference date (initialDate), offset value, direction and given array of holidays",
   "main": "main.js",
   "scripts": {
     "test": "nyc --reporter=text --reporter=html mocha"

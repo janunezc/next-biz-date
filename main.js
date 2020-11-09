@@ -45,9 +45,9 @@
     //FIX WEEKENDS
     if (dow === 6/*SATURDAY*/ || dow === 0/*SUNDAY*/) {
       if (dow === 0 /*SUNDAY*/)
-        mCandidateDate = direction === "FORWARD" ? mCandidateDate.add(1, 'day') : mCandidateDate.add(-2, 'day');
+        mCandidateDate = isDirectionForward(direction) ? mCandidateDate.add(1, 'day') : mCandidateDate.add(-2, 'day');
       else /*SATURDAY*/
-        mCandidateDate = direction === "FORWARD" ? mCandidateDate.add(2, 'day') : mCandidateDate.add(-1, 'day');
+        mCandidateDate = isDirectionForward(direction) ? mCandidateDate.add(2, 'day') : mCandidateDate.add(-1, 'day');
     }
 
     //REACT TO NO HoliDays array
@@ -65,7 +65,7 @@
       if (mHoliday.isSameOrAfter(mCandidateDate)) {
         if (mCandidateDate.isSame(mHoliday)) {
           let remainingHolidays;
-          if (direction === "FORWARD") {
+          if (isDirectionForward(direction)) {
             remainingHolidays = holidaysArray.slice(i + 1);
             return findBizDate(mCandidateDate.add(1, 'day'), remainingHolidays, direction);
           } else {
@@ -80,8 +80,8 @@
   }
 
   function getDirectionLogic(direction, holidaysArray) {
-    let result  = {};
-    if (direction === "FORWARD") {
+    let result = {};
+    if (isDirectionForward(direction)) {
       result.initial = 0;
       result.increment = 1;
       result.exitCondition = (value) => {
@@ -95,6 +95,14 @@
       };
     }
     return result;
+  }
+
+  function isDirectionForward(directionString) {
+    if (directionString && directionString !== "" && directionString.startsWith("FORWARD")) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   exports.FindBizDate = findBizDate;
