@@ -70,10 +70,17 @@ describe("FindBizDate", () => {
 describe("FindNextBizDate", () => {
   it("Should be able to handle offset forward cases", () => {
     let forwardCases = [
-      {initialDate: "2020-12-19", offset: 0, expectedDate: "2020-12-21"},
-      {initialDate: "2020-12-19", offset: 1, expectedDate: "2020-12-21"},
-      {initialDate: "2020-12-19", offset: 2, expectedDate: "2020-12-21"},
-      {initialDate: "2020-12-19", offset: 3, expectedDate: "2020-12-22"}
+      {initialDate: "2020-12-19", offset: 0 /* SAT 12/19  w*/, expectedDate: "2020-12-21"},
+      {initialDate: "2020-12-19", offset: 1 /* SUN 12/20  w*/, expectedDate: "2020-12-21"},
+      {initialDate: "2020-12-19", offset: 2 /* MON 12/21  b*/, expectedDate: "2020-12-21"},
+      {initialDate: "2020-12-19", offset: 3 /* TUE 12/22  b*/, expectedDate: "2020-12-22"},
+      {initialDate: "2020-12-19", offset: 4 /* WED 12/23  b*/, expectedDate: "2020-12-23"},
+      {initialDate: "2020-12-19", offset: 5 /* THU 12/24  b*/, expectedDate: "2020-12-24"},
+      {initialDate: "2020-12-19", offset: 6 /* FRI 12/25  h*/, expectedDate: "2020-12-29"},
+      {initialDate: "2020-12-19", offset: 7 /* SAT 12/26  w*/, expectedDate: "2020-12-29"},
+      {initialDate: "2020-12-19", offset: 8 /* SUN 12/27  w*/, expectedDate: "2020-12-29"},
+      {initialDate: "2020-12-19", offset: 9 /* MON 12/28  h*/, expectedDate: "2020-12-29"},
+      {initialDate: "2020-12-19", offset: 10 /*TUE 12/29  b*/, expectedDate: "2020-12-29"}
     ];
 
     forwardCases.forEach((caseItem, i) => {
@@ -85,17 +92,17 @@ describe("FindNextBizDate", () => {
 
   it("Should be able to handle offset backward cases", () => {
     let backwardsCases = [
-      {initialDate: "2020-12-26", offset: 0, expectedDate: "2020-12-24"},
-      {initialDate: "2020-12-26", offset: 1, expectedDate: "2020-12-24"},
-      {initialDate: "2020-12-26", offset: 2, expectedDate: "2020-12-24"},
-      {initialDate: "2020-12-26", offset: 3, expectedDate: "2020-12-23"},
-      {initialDate: "2020-12-26", offset: 4, expectedDate: "2020-12-22"},
-      {initialDate: "2020-12-26", offset: 5, expectedDate: "2020-12-21"},
-      {initialDate: "2020-12-26", offset: 6, expectedDate: "2020-12-18"},
-      {initialDate: "2020-12-26", offset: 7, expectedDate: "2020-12-18"},
-      {initialDate: "2020-12-26", offset: 8, expectedDate: "2020-12-18"},
-      {initialDate: "2020-12-26", offset: 9, expectedDate: "2020-12-16"},
-      {initialDate: "2020-12-26", offset: 10, expectedDate: "2020-12-16"}
+      {initialDate: "2020-12-26", offset: 0 /*SAT 12/26  w*/, expectedDate: "2020-12-24"},
+      {initialDate: "2020-12-26", offset: 1 /*FRI 12/25  h*/, expectedDate: "2020-12-24"},
+      {initialDate: "2020-12-26", offset: 2 /*THU 12/24  b*/, expectedDate: "2020-12-24"},
+      {initialDate: "2020-12-26", offset: 3 /*WED 12/23  b*/, expectedDate: "2020-12-23"},
+      {initialDate: "2020-12-26", offset: 4 /*TUE 12/22  b*/, expectedDate: "2020-12-22"},
+      {initialDate: "2020-12-26", offset: 5 /*MON 12/21  b*/, expectedDate: "2020-12-21"},
+      {initialDate: "2020-12-26", offset: 6 /*SUN 12/20  w*/, expectedDate: "2020-12-18"},
+      {initialDate: "2020-12-26", offset: 7 /*SAT 12/19  w*/, expectedDate: "2020-12-18"},
+      {initialDate: "2020-12-26", offset: 8 /*FRI 12/18  b*/, expectedDate: "2020-12-18"},
+      {initialDate: "2020-12-26", offset: 9 /*THU 12/17  h*/, expectedDate: "2020-12-16"},
+      {initialDate: "2020-12-26", offset: 10 /*WED 12/16 b*/, expectedDate: "2020-12-16"}
     ];
 
     backwardsCases.forEach((caseItem, i) => {
