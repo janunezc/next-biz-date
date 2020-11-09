@@ -36,15 +36,12 @@ describe("findBizDate(candidateDate, holidaysArray, direction)", () => {
       {candidateDate: "2021-01-05" /*TUE B*/, expectedResult: "2021-01-05"}
     ];
     
-    let results = [];
-
     happyPathCases.forEach((caseItem, i) => {
       let candidateDate = moment(caseItem.candidateDate);
       let result = nbd.FindBizDate(candidateDate, holidays);
 
       console.log("RESULT", caseItem, {result});
       assert.equal(result.isSame(moment(caseItem.expectedResult)), true);
-      results.push({candidateDate, result});
     });
   });
 });
