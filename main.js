@@ -55,6 +55,11 @@
       return mCandidateDate;
     }
 
+    return _scanForBizDate(mCandidateDate, holidaysArray, direction);
+    
+  }
+  
+  function _scanForBizDate(mCandidateDate, holidaysArray, direction){
     let directionLogic = getDirectionLogic(direction, holidaysArray);
 
     for (var i = directionLogic.initial; directionLogic.exitCondition(i); i += directionLogic.increment) {
@@ -73,8 +78,8 @@
           }
         }
       }
-    }
-
+    }  
+    
     return mCandidateDate;
   }
 
