@@ -100,16 +100,23 @@
       return mCandidateDate;
     }
 
-    return _scanForBizDate(mCandidateDate, holidaysArray, direction);
+    return _scanHolidays(mCandidateDate, holidaysArray, direction);
 
   }
 
-  function _scanForBizDate(mCandidateDate, holidaysArray, direction) {
+/**
+ * SCANS the holiday array to determine if provided candidate date (momentjs) matches holiday in turn.
+ * @param {type} mCandidateDate
+ * @param {type} holidaysArray
+ * @param {type} direction
+ * @returns {main=>#1.findBizDate.mCandidateDate|moment}
+ */
+  function _scanHolidays(mCandidateDate, holidaysArray, direction) {
     let directionLogic = holidayScanDirectionLogic(direction, holidaysArray);
 
     for (var i = directionLogic.initial; directionLogic.exitCondition(i); i += directionLogic.increment) {
-      let item = holidaysArray[i];
-      const mHoliday = moment(item);
+      let holidayItem = holidaysArray[i];
+      const mHoliday = moment(holidayItem);
 
       if (mHoliday.isSameOrAfter(mCandidateDate)) {
         if (mCandidateDate.isSame(mHoliday)) {
@@ -128,6 +135,12 @@
     return mCandidateDate;
   }
 
+  /**
+   * Crafts an object describing scan direction logic
+   * @param {String} direction FORWARD or BACKWARDS
+   * @param {Array of Strings} holidaysArray
+   * @returns {nm$_main.main=>#1.holidayScanDirectionLogic.result}
+   */
   function holidayScanDirectionLogic(direction, holidaysArray) {
     let result = {};
     if (isDirectionForward(direction)) {
@@ -146,6 +159,11 @@
     return result;
   }
 
+  /**
+   * Standardized boolean to determine if direction points to FORWARD or not
+   * @param {String} directionString FORWARD(s) or BACKWARDS
+   * @returns {Boolean} TRUE if FORWARD
+   */
   function isDirectionForward(directionString) {
     if (directionString && directionString !== "" && directionString.startsWith("FORWARD")) {
       return true;
