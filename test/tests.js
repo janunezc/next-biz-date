@@ -3,7 +3,7 @@ const moment = require("moment");
 const nbd = require("../main");
 
 const holidays = [
-  "2020-12-17",
+  "2020-12-18",
   "2020-12-25",
   "2020-12-28",
   "2021-01-01",
@@ -11,9 +11,9 @@ const holidays = [
 ];
 
 describe("findBizDate(candidateDate, holidaysArray, direction)", () => {
-  
+
   console.log("HOLIDAYS: ", holidays);
-  
+
   it("Should Find Biz Date based on CandidateDate", () => {
 
     const happyPathCases = [
@@ -35,7 +35,7 @@ describe("findBizDate(candidateDate, holidaysArray, direction)", () => {
       {candidateDate: "2021-01-04" /*MON H*/, expectedResult: "2021-01-05"},
       {candidateDate: "2021-01-05" /*TUE B*/, expectedResult: "2021-01-05"}
     ];
-    
+
     happyPathCases.forEach((caseItem, i) => {
       let candidateDate = moment(caseItem.candidateDate);
       let result = nbd.FindBizDate(candidateDate, holidays);
@@ -47,19 +47,22 @@ describe("findBizDate(candidateDate, holidaysArray, direction)", () => {
 });
 
 describe("findNextBizDate(baseDate, holidaysArray, offset, direction)", () => {
-  it("Should be able to handle offset forward cases", () => {
+  it("Should be able to handle offset COUNTING forward cases", () => {
     let forwardCases = [
-      {baseDate: "2020-12-19", offset: 0 /* SAT 12/19  w*/, expectedResult: "2020-12-21"},
-      {baseDate: "2020-12-19", offset: 1 /* SUN 12/20  w*/, expectedResult: "2020-12-21"},
-      {baseDate: "2020-12-19", offset: 2 /* MON 12/21  b*/, expectedResult: "2020-12-21"},
-      {baseDate: "2020-12-19", offset: 3 /* TUE 12/22  b*/, expectedResult: "2020-12-22"},
-      {baseDate: "2020-12-19", offset: 4 /* WED 12/23  b*/, expectedResult: "2020-12-23"},
-      {baseDate: "2020-12-19", offset: 5 /* THU 12/24  b*/, expectedResult: "2020-12-24"},
-      {baseDate: "2020-12-19", offset: 6 /* FRI 12/25  h*/, expectedResult: "2020-12-29"},
-      {baseDate: "2020-12-19", offset: 7 /* SAT 12/26  w*/, expectedResult: "2020-12-29"},
-      {baseDate: "2020-12-19", offset: 8 /* SUN 12/27  w*/, expectedResult: "2020-12-29"},
-      {baseDate: "2020-12-19", offset: 9 /* MON 12/28  h*/, expectedResult: "2020-12-29"},
-      {baseDate: "2020-12-19", offset: 10 /*TUE 12/29  b*/, expectedResult: "2020-12-29"}
+      {baseDate: "2020-12-17", offset: 0 /* 0                     */, expectedResult: "2020-12-17"},
+      {baseDate: "2020-12-17", offset: 1 /* 0>>>1                 */, expectedResult: "2020-12-21"},
+      
+      {baseDate: "2020-12-19", offset: 0 /* >>0                   */, expectedResult: "2020-12-21"},
+      {baseDate: "2020-12-19", offset: 1 /* >>1                   */, expectedResult: "2020-12-21"},//SAME?
+      {baseDate: "2020-12-19", offset: 2 /* >>12                  */, expectedResult: "2020-12-22"},
+      {baseDate: "2020-12-19", offset: 3 /* >>123                 */, expectedResult: "2020-12-23"},
+      {baseDate: "2020-12-19", offset: 4 /* >>1234                */, expectedResult: "2020-12-24"},
+      {baseDate: "2020-12-19", offset: 5 /* >>1234>>>>5           */, expectedResult: "2020-12-29"},
+      {baseDate: "2020-12-19", offset: 6 /* >>1234>>>>56          */, expectedResult: "2020-12-30"},
+      {baseDate: "2020-12-19", offset: 7 /* >>1234>>>>567         */, expectedResult: "2020-12-31"},
+      {baseDate: "2020-12-19", offset: 8 /* >>1234>>>>567>>>>8    */, expectedResult: "2021-01-05"},
+      {baseDate: "2020-12-19", offset: 9 /* >>1234>>>>567>>>>89   */, expectedResult: "2021-01-06"},
+      {baseDate: "2020-12-19", offset: 10 /*>>1234>>>>567>>>>89A  */, expectedResult: "2021-01-07"}
     ];
 
     forwardCases.forEach((caseItem, i) => {
@@ -71,17 +74,26 @@ describe("findNextBizDate(baseDate, holidaysArray, offset, direction)", () => {
 
   it("Should be able to handle offset backward cases", () => {
     let backwardsCases = [
-      {baseDate: "2020-12-26", offset: 0 /*SAT 12/26  w*/, expectedResult: "2020-12-24"},
-      {baseDate: "2020-12-26", offset: 1 /*FRI 12/25  h*/, expectedResult: "2020-12-24"},
-      {baseDate: "2020-12-26", offset: 2 /*THU 12/24  b*/, expectedResult: "2020-12-24"},
-      {baseDate: "2020-12-26", offset: 3 /*WED 12/23  b*/, expectedResult: "2020-12-23"},
-      {baseDate: "2020-12-26", offset: 4 /*TUE 12/22  b*/, expectedResult: "2020-12-22"},
-      {baseDate: "2020-12-26", offset: 5 /*MON 12/21  b*/, expectedResult: "2020-12-21"},
-      {baseDate: "2020-12-26", offset: 6 /*SUN 12/20  w*/, expectedResult: "2020-12-18"},
-      {baseDate: "2020-12-26", offset: 7 /*SAT 12/19  w*/, expectedResult: "2020-12-18"},
-      {baseDate: "2020-12-26", offset: 8 /*FRI 12/18  b*/, expectedResult: "2020-12-18"},
-      {baseDate: "2020-12-26", offset: 9 /*THU 12/17  h*/, expectedResult: "2020-12-16"},
-      {baseDate: "2020-12-26", offset: 10 /*WED 12/16 b*/, expectedResult: "2020-12-16"}
+      {baseDate: "2020-12-30", offset: 0 /*SAT 12/26  w*/, expectedResult: "2020-12-30"},
+      {baseDate: "2020-12-30", offset: 1 /*FRI 12/25  h*/, expectedResult: "2020-12-29"},
+      {baseDate: "2020-12-30", offset: 2 /*THU 12/24  b*/, expectedResult: "2020-12-24"},
+      {baseDate: "2020-12-30", offset: 3 /*WED 12/23  b*/, expectedResult: "2020-12-23"},
+      {baseDate: "2020-12-30", offset: 4 /*TUE 12/22  b*/, expectedResult: "2020-12-22"},
+      {baseDate: "2020-12-30", offset: 5 /*MON 12/21  b*/, expectedResult: "2020-12-21"},
+      {baseDate: "2020-12-30", offset: 6 /*SUN 12/20  w*/, expectedResult: "2020-12-17"},
+
+      {baseDate: "2021-01-07", offset: 7 /*SAT 12/19  w*/, expectedResult: "2020-12-18"},
+      {baseDate: "2021-01-07", offset: 8 /*FRI 12/18  b*/, expectedResult: "2020-12-18"},
+      {baseDate: "2021-01-07", offset: 9 /*THU 12/17  h*/, expectedResult: "2020-12-16"},
+
+      {baseDate: "2021-01-03", offset: 8 /*WED 12/16 b*/, expectedResult: "2020-12-16"},
+
+      {baseDate: "2020-12-27", offset: 0 /*THU 12/24  b*/, expectedResult: "2020-12-24"},
+      {baseDate: "2020-12-27", offset: 1 /*WED 12/23  b*/, expectedResult: "2020-12-24"}, //SAME?
+      {baseDate: "2020-12-27", offset: 2 /*TUE 12/22  b*/, expectedResult: "2020-12-23"},
+      {baseDate: "2020-12-27", offset: 3 /*MON 12/21  b*/, expectedResult: "2020-12-22"},
+      {baseDate: "2020-12-27", offset: 4 /*MON 12/21  b*/, expectedResult: "2020-12-21"},
+      {baseDate: "2020-12-27", offset: 5 /*MON 12/21  b*/, expectedResult: "2020-12-17"}
     ];
 
     backwardsCases.forEach((caseItem, i) => {
