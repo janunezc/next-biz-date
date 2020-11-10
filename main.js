@@ -1,30 +1,62 @@
 (() => {
   const moment = require("moment");
 
-  /**
-   * Find a business date by shifting a base date by a provided offset in the provided direction. It leverages the findBizDate() function.
-   * @param {String} baseDate String of YYYY-MM-DD format or Moment object
-   * @param {Array} holidaysArray Array of strings of YYYY-MM-DD format
-   * @param {Int} offset
-   * @param {String} direction with content of "FORWARD" or "BACKWARDS"
-   * @returns {main=>#1.findBizDate.mCandidateDate|moment}
+
+  /***
+   * Caluclates next applicable business of counting from a provided base dateby counting 1 by one skipping holidays from holidaysArray and weekendays.
+   * @param {type} baseDate
+   * @param {type} holidaysArray
+   * @param {type} countTarget
+   * @param {type} direction
+   * @returns {undefined}
    */
-  function findNextBizDate(baseDate, holidaysArray, offset, direction) {
-    if (!offset) {
-      offset = 0;
+  function crawlBizDates(baseDate, holidaysArray, countTarget, direction) {
+    if (!countTarget) {
+      countTarget = 0;
     }
 
     if (!direction) {
       direction = "FORWARD";
     }
 
-    if (direction === "FORWARD") {
-      let initialCandidateDate = moment(baseDate).add(offset, 'days');
-      return findBizDate(initialCandidateDate, holidaysArray, direction);
+    if (countTarget === 0) {
+      return findBizDate(baseDate, holidaysArray, direction);
     } else {
-      let initialCandidateDate = moment(baseDate).add(-1 * offset, 'days');
-      return findBizDate(initialCandidateDate, holidaysArray, direction);
+      return _crawlForCount(baseDate, holidaysArray, countTarget, direction);
     }
+  }
+
+  function _crawlForCount(baseDate, holidaysArray, countTarget, direction) {
+    const mBaseDate = moment(baseDate);
+    let mResultDate = mBaseDate;
+    let actualCount = 0;
+    let dayIncrement = isDirectionForward(direction) ? 1 : -1;
+
+    while (actualCount < countTarget) {
+      mResultDate = mResultDate.add(dayIncrement, "days");
+
+      if (isBusinessDay(mResultDate, holidaysArray)) {
+        actualCount++;
+      }
+    }
+    return mResultDate;
+  }
+
+  function isBusinessDay(candidateDate, holidaysArray) {
+    let mCandidateDate = moment(candidateDate);
+    let dow = mCandidateDate.day();
+    if (dow === 6 || dow === 0) {
+      return false;
+    }
+
+    for (i = 0; i < holidaysArray.length; i++) {
+      let mHolidayAtStake = moment(holidaysArray[i]);
+      if (mHolidayAtStake.isSame(mCandidateDate)) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   /**
@@ -56,11 +88,11 @@
     }
 
     return _scanForBizDate(mCandidateDate, holidaysArray, direction);
-    
+
   }
-  
-  function _scanForBizDate(mCandidateDate, holidaysArray, direction){
-    let directionLogic = getDirectionLogic(direction, holidaysArray);
+
+  function _scanForBizDate(mCandidateDate, holidaysArray, direction) {
+    let directionLogic = holidayScanDirectionLogic(direction, holidaysArray);
 
     for (var i = directionLogic.initial; directionLogic.exitCondition(i); i += directionLogic.increment) {
       let item = holidaysArray[i];
@@ -78,12 +110,12 @@
           }
         }
       }
-    }  
-    
+    }
+
     return mCandidateDate;
   }
 
-  function getDirectionLogic(direction, holidaysArray) {
+  function holidayScanDirectionLogic(direction, holidaysArray) {
     let result = {};
     if (isDirectionForward(direction)) {
       result.initial = 0;
@@ -110,5 +142,5 @@
   }
 
   exports.FindBizDate = findBizDate;
-  exports.FindNextBizDate = findNextBizDate;
+  exports.FindNextBizDate = crawlBizDates;
 })();

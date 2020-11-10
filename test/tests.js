@@ -51,9 +51,9 @@ describe("findNextBizDate(baseDate, holidaysArray, offset, direction)", () => {
     let forwardCases = [
       {baseDate: "2020-12-17", offset: 0 /* 0                     */, expectedResult: "2020-12-17"},
       {baseDate: "2020-12-17", offset: 1 /* 0>>>1                 */, expectedResult: "2020-12-21"},
-      
+
       {baseDate: "2020-12-19", offset: 0 /* >>0                   */, expectedResult: "2020-12-21"},
-      {baseDate: "2020-12-19", offset: 1 /* >>1                   */, expectedResult: "2020-12-21"},//SAME?
+      {baseDate: "2020-12-19", offset: 1 /* >>1                   */, expectedResult: "2020-12-21"}, //SAME?
       {baseDate: "2020-12-19", offset: 2 /* >>12                  */, expectedResult: "2020-12-22"},
       {baseDate: "2020-12-19", offset: 3 /* >>123                 */, expectedResult: "2020-12-23"},
       {baseDate: "2020-12-19", offset: 4 /* >>1234                */, expectedResult: "2020-12-24"},
@@ -65,10 +65,15 @@ describe("findNextBizDate(baseDate, holidaysArray, offset, direction)", () => {
       {baseDate: "2020-12-19", offset: 10 /*>>1234>>>>567>>>>89A  */, expectedResult: "2021-01-07"}
     ];
 
+    let results = [];
     forwardCases.forEach((caseItem, i) => {
       let result = nbd.FindNextBizDate(caseItem.baseDate, holidays, caseItem.offset, "FORWARD");
       console.log("RESULT", caseItem, {result});
-      assert.equal(result.isSame(caseItem.expectedResult), true);
+      results.push({caseItem, result});
+    });
+
+    results.forEach((item) => {
+      assert.equal(item.result.isSame(item.caseItem.expectedResult), true);
     });
   });
 
@@ -82,11 +87,11 @@ describe("findNextBizDate(baseDate, holidaysArray, offset, direction)", () => {
       {baseDate: "2020-12-30", offset: 5 /*MON 12/21  b*/, expectedResult: "2020-12-21"},
       {baseDate: "2020-12-30", offset: 6 /*SUN 12/20  w*/, expectedResult: "2020-12-17"},
 
-      {baseDate: "2021-01-07", offset: 7 /*SAT 12/19  w*/, expectedResult: "2020-12-18"},
-      {baseDate: "2021-01-07", offset: 8 /*FRI 12/18  b*/, expectedResult: "2020-12-18"},
-      {baseDate: "2021-01-07", offset: 9 /*THU 12/17  h*/, expectedResult: "2020-12-16"},
+      {baseDate: "2021-01-07", offset: 7 /*SAT 12/19  w*/, expectedResult: "2020-12-23"},
+      {baseDate: "2021-01-07", offset: 8 /*FRI 12/18  b*/, expectedResult: "2020-12-22"},
+      {baseDate: "2021-01-07", offset: 9 /*THU 12/17  h*/, expectedResult: "2020-12-21"},
 
-      {baseDate: "2021-01-03", offset: 8 /*WED 12/16 b*/, expectedResult: "2020-12-16"},
+      {baseDate: "2021-01-03", offset: 8 /*WED 12/16 b*/, expectedResult: "2020-12-17"},
 
       {baseDate: "2020-12-27", offset: 0 /*THU 12/24  b*/, expectedResult: "2020-12-24"},
       {baseDate: "2020-12-27", offset: 1 /*WED 12/23  b*/, expectedResult: "2020-12-24"}, //SAME?
@@ -96,10 +101,15 @@ describe("findNextBizDate(baseDate, holidaysArray, offset, direction)", () => {
       {baseDate: "2020-12-27", offset: 5 /*MON 12/21  b*/, expectedResult: "2020-12-17"}
     ];
 
+    let results = [];
     backwardsCases.forEach((caseItem, i) => {
       let result = nbd.FindNextBizDate(caseItem.baseDate, holidays, caseItem.offset, "BACKWARDS");
       console.log("RESULT", caseItem, {result});
-      assert.equal(result.isSame(caseItem.expectedResult), true);
+      results.push({caseItem, result});
+    });
+
+    results.forEach((item) => {
+      assert.equal(item.result.isSame(item.caseItem.expectedResult), true);
     });
   });
 
