@@ -121,4 +121,11 @@ describe("findNextBizDate(baseDate, holidaysArray, offset, direction)", () => {
     assert.equal(result2.isSame(moment("2020-12-29")), true);
     console.log(result, result2);
   });
+
+  it("Should process backwards from saturday", () => {
+    const cornerCase = {baseDate: "2020-12-19", expectedResult: "2020-12-17"};
+    const result = nbd.FindNextBizDate(cornerCase.baseDate, holidays, 0, "BACKWARDS");
+    console.log({cornerCase, result});
+    assert.equal(result.isSame(moment(cornerCase.expectedResult)), true);
+  });
 });
