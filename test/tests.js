@@ -52,6 +52,10 @@ describe("findNextBizDate(baseDate, holidaysArray, offset, direction)", () => {
       {baseDate: "2020-12-17", offset: 0 /*  0                     */, expectedResult: "2020-12-17"},
       {baseDate: "2020-12-17", offset: 1 /*  0HWW1                 */, expectedResult: "2020-12-21"},
 
+      {baseDate: "2020-12-21", offset: 0 /*  0                     */, expectedResult: "2020-12-21"},
+      {baseDate: "2020-12-21", offset: 1 /*  01                    */, expectedResult: "2020-12-22"},
+      {baseDate: "2020-12-21", offset: 2 /*  012                   */, expectedResult: "2020-12-23"},
+
       {baseDate: "2020-12-19", offset: 0 /*  WW0                   */, expectedResult: "2020-12-21"},
       {baseDate: "2020-12-19", offset: 1 /*  WW1                   */, expectedResult: "2020-12-21"},
       {baseDate: "2020-12-19", offset: 2 /*  WW12                  */, expectedResult: "2020-12-22"},
