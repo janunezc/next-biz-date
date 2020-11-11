@@ -27,7 +27,7 @@
 
   /**
    * Crawls day by day to find countTarget number of business days after baseDate.
-   * @param {String} baseDate Date to start countinf from
+   * @param {String} baseDate Date to start counting from
    * @param {Array} holidaysArray Holidays to consider
    * @param {Int} countTarget Number of business days to count for.
    * @param {String} direction FORWARD or BACKWARDS
