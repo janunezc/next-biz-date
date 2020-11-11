@@ -1,6 +1,6 @@
 {
   "name": "next-biz-date",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Returns the next business date (future or past based on direction as FORWARD or BACKWARDS) for a given reference date (initialDate), offset count value, direction and given array of holidays",
   "main": "main.js",
   "scripts": {
