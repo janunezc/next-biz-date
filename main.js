@@ -104,13 +104,13 @@
 
   }
 
-/**
- * SCANS the holiday array to determine if provided candidate date (momentjs) matches holiday in turn.
- * @param {type} mCandidateDate
- * @param {type} holidaysArray
- * @param {type} direction
- * @returns {main=>#1.findBizDate.mCandidateDate|moment}
- */
+  /**
+   * SCANS the holiday array to determine if provided candidate date (momentjs) matches holiday in turn.
+   * @param {type} mCandidateDate
+   * @param {type} holidaysArray
+   * @param {type} direction
+   * @returns {main=>#1.findBizDate.mCandidateDate|moment}
+   */
   function _scanHolidays(mCandidateDate, holidaysArray, direction) {
     let directionLogic = holidayScanDirectionLogic(direction, holidaysArray);
 
