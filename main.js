@@ -7,7 +7,7 @@
    * @param {Array} holidaysArray Array of holidays to consider.
    * @param {Int} countTarget Number of biz dates count.
    * @param {String} direction FORWARD or BACKWARDS to count to the future or to the past respectively.
-   * @returns {MomentJS Date}  
+   * @returns {MomentJS Date}
    */
   function findNextBizDate(baseDate, holidaysArray, countTarget, direction) {
     if (!countTarget) {
