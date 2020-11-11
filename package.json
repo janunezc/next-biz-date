@@ -1,7 +1,7 @@
 {
   "name": "next-biz-date",
   "version": "2.0.1",
-  "description": "Returns the next business date (future or past based on direction as FORWARD or BACKWARDS) for a given reference date (initialDate), offset count value, direction and given array of holidays",
+  "description": "Returns the next business date for a given reference date (initialDate), an offset count value, a direction (FORWARD or BACKWARDS) and a given array of holidays",
   "main": "main.js",
   "scripts": {
     "test": "nyc --reporter=text --reporter=html mocha"
@@ -9,7 +9,11 @@
   "keywords": [
     "next",
     "business",
-    "day"
+    "day",
+    "days",
+    "counting",
+    "date",
+    "business days counting"
   ],
   "repository": {
     "type": "git",
