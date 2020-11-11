@@ -21,7 +21,7 @@ The basic outline is:
 2. Define array of holidays (strings with YYYY-MM-DD format). I.e.: `["2020-12-25","2020-12-28","2021-01-01"]`
 3. Define an offset (integer >=0) and a direction (`"FORWARD"` or `"BACKWARDS"`). I.e.: `1`
 4. Call the `FindNextBizDate()` function passing the `candidateDate`, the `holidaysArray`, `offset` and `direction` you defined.
-5. The function will determine if the proposed date (i.e.: 2020-12-24) plus offset (1) on the corresponding direction (FORWARD) is a business day (not a weekend day,not a holiday). If it is not, then it will scan for the next business day.
+5. The function will determine the date that results from counting business days, skipping holidays and weekend days begining from the proposed date as "day 0" (i.e.: 2020-12-24) with offset (1) on the corresponding direction (FORWARD) is a business day (not a weekend day,not a holiday). If it is not, then it will scan for the next business day.
 6. Result: For `InitialDate=2020-12-24, offset=1, direction=FORWARD and holidays = ["2020-12-25","2020-12-28","2021-01-01"]` the result will be `*2020-12-29*`
 
 
