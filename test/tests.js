@@ -111,7 +111,7 @@ describe("findNextBizDate(baseDate, holidaysArray, offset, direction)", () => {
       {baseDate: "2020-12-19", offset: 9 /*  WW1234HWWH567HWWH89   */, expectedResult: "2021-01-06"},
       {baseDate: "2020-12-19", offset: 10 /* WW1234HWWH567HWWH890  */, expectedResult: "2021-01-07"},
       {baseDate: "2020-12-19", offset: 11 /* WW1234HWWH567HWWH8901 */, expectedResult: "2021-01-08"},
-      
+
       {baseDate: "2020-12-24", offset: 4 /* WW1234HWWH567HWWH8901 */, expectedResult: "2021-01-05"},
     ];
 
@@ -179,16 +179,24 @@ describe("findNextBizDate(baseDate, holidaysArray, offset, direction)", () => {
     assert.equal(result.isSame(moment(cornerCase.expectedResult)), true);
   });
 
-  it("Should support 11000 iterations in reasonable time", () => {
-
-    const cornerCase = {baseDate: "2020-12-19", expectedResult: "2020-12-16"};
-    let i = 0;
-    let result;
-    for (i = 0; i < 11000; i++) {
-      result = nbd.FindNextBizDate(cornerCase.baseDate, holidays, 2, "BACKWARDS");
-    }
-    console.log(`FINISHED AFTER ${i} iterations`, result);
-    assert.equal(result.isSame(moment(cornerCase.expectedResult)), true);
+  const targetYears = 1;
+  const targetFFDays = 1;
+  it(`Should support ${targetYears} years of days iterations in reasonable time`, () => {
     
+    console.log(`COUNTING ${targetFFDays} days FOR ${targetYears} YEARS...`);
+
+    let volumeTestItem = moment("2010-01-01");
+    const volumeTests = [];
+    for (vt = 0; vt < 365 * targetYears; vt++) {
+      volumeTests.push(moment(volumeTestItem));
+      volumeTestItem = volumeTestItem.add(1, "days");
+    }
+
+    volumeTests.forEach((item) => {
+      result = nbd.FindNextBizDate(item, holidays, targetFFDays, "FORWARD");
+    });
+
+    console.log(`FINISHED AFTER PROCESSING ${volumeTests.length} days that counted forward ${targetFFDays} business days each!`);
+
   });
 });

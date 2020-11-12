@@ -1,5 +1,6 @@
 (() => {
   const moment = require("moment");
+  const memoize = require("memoizee");
 
   /***
    * Caluclates next applicable business day out of counting bizdates starting from a provided base date up to a provided countTarget by skipping holidays and weekends.
@@ -52,15 +53,6 @@
     return mResultDate;
   }
 
-  let isBusinessDay_Cache = [];
-  function isBusinessDay_getFromCache(mCandidateDate) {
-    for (idx = 0; idx < isBusinessDay_Cache.length; idx++) {
-      let cachedItem = isBusinessDay_Cache[idx];
-      if (cachedItem.cachedDate.isSame(mCandidateDate)) {
-        return cachedItem.result;
-      }
-    }
-  }
   /**
    * Deterimnes if provided candidateDate exists in the holidays array
    * @param {String or Moment Object} candidateDate
@@ -71,25 +63,16 @@
     let mCandidateDate = moment(candidateDate);
     let dow = mCandidateDate.day();
 
-    let cachedResult = isBusinessDay_getFromCache(mCandidateDate);
-    if (cachedResult !== undefined) {
-      return cachedResult;
-    }
-
     if (dow === 6 || dow === 0) {
-      isBusinessDay_Cache.push({cachedDate: mCandidateDate, result: false});
       return false;
     }
 
     for (i = 0; i < holidaysArray.length; i++) {
       let mHolidayAtStake = moment(holidaysArray[i]);
       if (mHolidayAtStake.isSame(mCandidateDate)) {
-        isBusinessDay_Cache.push({cachedDate: mCandidateDate, result: false});
         return false;
       }
     }
-
-    isBusinessDay_Cache.push({cachedDate: mCandidateDate, result: true});
     return true;
   }
 
@@ -193,6 +176,6 @@
     }
   }
 
-  exports.FindBizDate = findBizDate;
-  exports.FindNextBizDate = findNextBizDate;
+  exports.FindBizDate = memoize(findBizDate);
+  exports.FindNextBizDate = memoize(findNextBizDate);
 })();
