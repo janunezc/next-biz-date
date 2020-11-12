@@ -12,8 +12,14 @@
     "day",
     "days",
     "counting",
+    "counter",
+    "finder",
+    "workdays",
+    "weekend days",
+    "holidays",
     "date",
-    "business days counting"
+    "business days counting",
+    "business days counter"
   ],
   "repository": {
     "type": "git",

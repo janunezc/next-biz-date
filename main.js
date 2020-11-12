@@ -21,9 +21,11 @@
     if (countTarget === 0) { //DEFAULT TO NEXT BIZ DATE
       return findBizDate(baseDate, holidaysArray, direction);
     } else { //CRAWL FOR COUNT
+
       return _crawlForCount(baseDate, holidaysArray, countTarget, direction);
     }
   }
+
 
   /**
    * Crawls day by day to find countTarget number of business days after baseDate.
@@ -46,9 +48,19 @@
         actualCount++;
       }
     }
+
     return mResultDate;
   }
 
+  let isBusinessDay_Cache = [];
+  function isBusinessDay_getFromCache(mCandidateDate) {
+    for (idx = 0; idx < isBusinessDay_Cache.length; idx++) {
+      let cachedItem = isBusinessDay_Cache[idx];
+      if (cachedItem.cachedDate.isSame(mCandidateDate)) {
+        return cachedItem.result;
+      }
+    }
+  }
   /**
    * Deterimnes if provided candidateDate exists in the holidays array
    * @param {String or Moment Object} candidateDate
@@ -58,17 +70,26 @@
   function isBusinessDay(candidateDate, holidaysArray) {
     let mCandidateDate = moment(candidateDate);
     let dow = mCandidateDate.day();
+
+    let cachedResult = isBusinessDay_getFromCache(mCandidateDate);
+    if (cachedResult !== undefined) {
+      return cachedResult;
+    }
+
     if (dow === 6 || dow === 0) {
+      isBusinessDay_Cache.push({cachedDate: mCandidateDate, result: false});
       return false;
     }
 
     for (i = 0; i < holidaysArray.length; i++) {
       let mHolidayAtStake = moment(holidaysArray[i]);
       if (mHolidayAtStake.isSame(mCandidateDate)) {
+        isBusinessDay_Cache.push({cachedDate: mCandidateDate, result: false});
         return false;
       }
     }
 
+    isBusinessDay_Cache.push({cachedDate: mCandidateDate, result: true});
     return true;
   }
 
