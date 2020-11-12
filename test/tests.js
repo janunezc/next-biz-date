@@ -179,12 +179,12 @@ describe("findNextBizDate(baseDate, holidaysArray, offset, direction)", () => {
     assert.equal(result.isSame(moment(cornerCase.expectedResult)), true);
   });
 
-  it("Should support 3000 iterations in reasonable time", () => {
+  it("Should support 11000 iterations in reasonable time", () => {
 
     const cornerCase = {baseDate: "2020-12-19", expectedResult: "2020-12-16"};
     let i = 0;
     let result;
-    for (i = 0; i < 3000; i++) {
+    for (i = 0; i < 11000; i++) {
       result = nbd.FindNextBizDate(cornerCase.baseDate, holidays, 2, "BACKWARDS");
     }
     console.log(`FINISHED AFTER ${i} iterations`, result);
