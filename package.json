@@ -1,6 +1,6 @@
 {
   "name": "next-biz-date",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Returns the next business date for a given reference date (initialDate), an offset count value, a direction (FORWARD or BACKWARDS) and a given array of holidays. This package is optimized by memoization techniques.",
   "main": "main.js",
   "scripts": {
