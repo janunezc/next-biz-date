@@ -1,6 +1,9 @@
 (() => {
   const moment = require("moment");
   const memoize = require("memoizee");
+  
+  const _crawlForCount = memoize(__crawlForCount);
+  const findBizDate = memoize(_findBizDate);
 
   /***
    * Caluclates next applicable business day out of counting bizdates starting from a provided base date up to a provided countTarget by skipping holidays and weekends.
@@ -36,7 +39,7 @@
    * @param {String} direction FORWARD or BACKWARDS
    * @returns {main=>#1._crawlForCount.mResultDate}
    */
-  function _crawlForCount(baseDate, holidaysArray, countTarget, direction) {
+  function __crawlForCount(baseDate, holidaysArray, countTarget, direction) {
     const mBaseDate = moment(baseDate);
     let mResultDate = mBaseDate;
     let actualCount = 0;
@@ -84,7 +87,7 @@
    * @param {string} direction FORWARD or BACKWARDS
    * @returns {moment}
    */
-  function findBizDate(candidateDate, holidaysArray, direction) {
+  function _findBizDate(candidateDate, holidaysArray, direction) {
     let mCandidateDate = moment(candidateDate);
     let dow = mCandidateDate.day();
     if (!direction) {

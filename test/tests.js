@@ -179,8 +179,8 @@ describe("findNextBizDate(baseDate, holidaysArray, offset, direction)", () => {
     assert.equal(result.isSame(moment(cornerCase.expectedResult)), true);
   });
 
-  const targetYears = 1;
-  const targetFFDays = 1;
+  const targetYears = 2;
+  const targetFFDays = 5;
   it(`Should support ${targetYears} years of days iterations in reasonable time`, () => {
     
     console.log(`COUNTING ${targetFFDays} days FOR ${targetYears} YEARS...`);
