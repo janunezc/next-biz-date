@@ -179,24 +179,33 @@ describe("findNextBizDate(baseDate, holidaysArray, offset, direction)", () => {
     assert.equal(result.isSame(moment(cornerCase.expectedResult)), true);
   });
 
-  const targetYears = 2;
+  const targetYears = 1;
   const targetFFDays = 5;
   it(`Should support ${targetYears} years of days iterations in reasonable time`, () => {
-    
+
     console.log(`COUNTING ${targetFFDays} days FOR ${targetYears} YEARS...`);
 
-    let volumeTestItem = moment("2010-01-01");
-    const volumeTests = [];
-    for (vt = 0; vt < 365 * targetYears; vt++) {
-      volumeTests.push(moment(volumeTestItem));
-      volumeTestItem = volumeTestItem.add(1, "days");
+    let volumeTestItem = moment("2020-01-01");
+    let results = [];
+    for (vt = 0; vt < 365*targetYears; vt++) {
+      volumeTestItem = moment(volumeTestItem.add(1, "days"));
+      result = nbd.FindNextBizDate(volumeTestItem, holidays, targetFFDays, "FORWARD");
+      results.push({volumeTestItem, result});
     }
 
-    volumeTests.forEach((item) => {
-      result = nbd.FindNextBizDate(item, holidays, targetFFDays, "FORWARD");
-    });
+    console.log(`FINISHED AFTER PROCESSING ${results.length} days that counted forward ${targetFFDays} business days each!`);
 
-    console.log(`FINISHED AFTER PROCESSING ${volumeTests.length} days that counted forward ${targetFFDays} business days each!`);
+  });
 
+  it("Shoud process 10000 of the same day in record time", () => {
+    let counter = 0;
+    for (i = 0; i < 10000; i++) {
+      let volumeTestItem = "2020-12-25";
+      let result = nbd.FindNextBizDate(volumeTestItem, holidays, 15, "FORWARD");
+      assert.equal(result.isSame(moment("2021-01-20")), true);
+      counter = i;  
+    }
+    
+    assert.equal(counter, 9999);
   });
 });
