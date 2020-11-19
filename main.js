@@ -1,7 +1,7 @@
 (() => {
   const moment = require("moment");
   const memoize = require("memoizee");
-  //const memoize = (c) => {return c;};
+  //const memoize = (c) => {return c;}; //<< AN EASY WAY TO DISABLE MEMOIZATION. WILL NEED TO COMMENT LINE 3 AND UNCOMMENT THIS ONE.
 
   const crawlForCount = memoize(_crawlForCount);
   const findBizDate = memoize(_findBizDate);
@@ -31,7 +31,6 @@
       return crawlForCount(baseDate, holidaysArray, countTarget, direction);
     }
   }
-
 
   /**
    * Crawls day by day to find countTarget number of business days after baseDate.
@@ -127,16 +126,14 @@
       let holidayItem = holidaysArray[i];
       const mHoliday = moment(holidayItem);
 
-      if (mHoliday.isSameOrAfter(mCandidateDate)) {
-        if (mCandidateDate.isSame(mHoliday)) {
-          let remainingHolidays;
-          if (isDirectionForward(direction)) {
-            remainingHolidays = holidaysArray.slice(i + 1);
-            return findBizDate(mCandidateDate.add(1, 'day'), remainingHolidays, direction);
-          } else {
-            remainingHolidays = holidaysArray.slice(0, holidaysArray.length - 2);
-            return findBizDate(mCandidateDate.add(-1, 'day'), remainingHolidays, direction);
-          }
+      if (mCandidateDate.isSame(mHoliday)) {
+        let remainingHolidays;
+        if (isDirectionForward(direction)) {
+          remainingHolidays = holidaysArray.slice(i + 1);
+          return findBizDate(mCandidateDate.add(1, 'day'), remainingHolidays, direction);
+        } else {
+          remainingHolidays = holidaysArray.slice(0, holidaysArray.length - 1);
+          return findBizDate(mCandidateDate.add(-1, 'day'), remainingHolidays, direction);
         }
       }
     }

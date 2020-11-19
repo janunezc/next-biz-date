@@ -3,61 +3,20 @@ const moment = require("moment");
 const nbd = require("../main");
 
 const holidays = [
-  "2020-01-13",
-  "2020-01-15",
-  "2020-02-02",
-  "2020-02-10",
-  "2020-02-13",
-  "2020-02-28",
-  "2020-03-03",
-  "2020-03-12",
-  "2020-03-18",
-  "2020-03-21",
-  "2020-04-01",
-  "2020-04-11",
-  "2020-04-14",
-  "2020-04-20",
-  "2020-05-01",
-  "2020-05-04",
-  "2020-05-05",
-  "2020-05-22",
-  "2020-05-30",
-  "2020-06-01",
-  "2020-06-04",
-  "2020-06-07",
-  "2020-06-24",
-  "2020-06-28",
-  "2020-07-15",
-  "2020-07-25",
-  "2020-08-02",
-  "2020-08-09",
-  "2020-08-15",
-  "2020-09-01",
-  "2020-09-04",
-  "2020-09-09",
-  "2020-09-15",
-  "2020-10-02",
-  "2020-10-07",
-  "2020-10-09",
-  "2020-10-31",
-  "2020-11-01",
-  "2020-11-05",
-  "2020-11-10",
-  "2020-11-15",
-  "2020-11-25",
-  "2020-11-26",
-  "2020-12-18",
-  "2020-12-25",
-  "2020-12-28",
-  "2021-01-01",
-  "2021-01-04"
-];
+  "2020-01-13", "2020-01-15", "2020-02-02", "2020-02-10", "2020-02-13", "2020-02-28",
+  "2020-03-03", "2020-03-12", "2020-03-18", "2020-03-21", "2020-04-01", "2020-04-11",
+  "2020-04-14", "2020-04-20", "2020-05-01", "2020-05-04", "2020-05-05", "2020-05-22",
+  "2020-05-30", "2020-06-01", "2020-06-04", "2020-06-07", "2020-06-24", "2020-06-28",
+  "2020-07-15", "2020-07-25", "2020-08-02", "2020-08-09", "2020-08-15", "2020-09-01",
+  "2020-09-04", "2020-09-09", "2020-09-15", "2020-10-02", "2020-10-07", "2020-10-09",
+  "2020-10-31", "2020-11-01", "2020-11-05", "2020-11-10", "2020-11-15", "2020-11-25",
+  "2020-11-26", "2020-12-18", "2020-12-25", "2020-12-28", "2021-01-01", "2021-01-04"];
 
 describe("findBizDate(candidateDate, holidaysArray, direction)", () => {
 
   console.log("HOLIDAYS: ", holidays);
 
-  it("Should Find Biz Date based on CandidateDate", () => {
+  it("Should Find Biz Date based on CandidateDate FORWARD", () => {
 
     const happyPathCases = [
       {candidateDate: "2020-12-20" /*SUN W*/, expectedResult: "2020-12-21"},
@@ -87,6 +46,40 @@ describe("findBizDate(candidateDate, holidaysArray, direction)", () => {
       assert.equal(result.isSame(moment(caseItem.expectedResult)), true);
     });
   });
+
+  it("Should Find Biz Date based on CandidateDate BACKWARDS", () => {
+    const happyPathCases = [
+
+      {candidateDate: "2020-12-20" /*SUN W*/, expectedResult: "2020-12-17"},
+      {candidateDate: "2020-12-21" /*MON B*/, expectedResult: "2020-12-21"},
+      {candidateDate: "2020-12-22" /*TUE B*/, expectedResult: "2020-12-22"},
+      {candidateDate: "2020-12-23" /*WED B*/, expectedResult: "2020-12-23"},
+      {candidateDate: "2020-12-24" /*THU B*/, expectedResult: "2020-12-24"},
+      {candidateDate: "2020-12-25" /*FRI H*/, expectedResult: "2020-12-24"},
+      {candidateDate: "2020-12-26" /*SAT W*/, expectedResult: "2020-12-24"},
+      {candidateDate: "2020-12-27" /*SUN W*/, expectedResult: "2020-12-24"},
+      {candidateDate: "2020-12-28" /*MON H*/, expectedResult: "2020-12-24"},
+      {candidateDate: "2020-12-29" /*TUE B*/, expectedResult: "2020-12-29"},
+      {candidateDate: "2020-12-30" /*WED B*/, expectedResult: "2020-12-30"},
+      {candidateDate: "2020-12-31" /*THU B*/, expectedResult: "2020-12-31"},
+
+      {candidateDate: "2021-01-01" /*FRI H*/, expectedResult: "2020-12-31"},
+      {candidateDate: "2021-01-02" /*SAT W*/, expectedResult: "2020-12-31"},
+      {candidateDate: "2021-01-03" /*SUN W*/, expectedResult: "2020-12-31"},
+      {candidateDate: "2021-01-04" /*MON H*/, expectedResult: "2020-12-31"},
+
+      {candidateDate: "2021-01-05" /*TUE B*/, expectedResult: "2021-01-05"}
+    ];
+
+    happyPathCases.forEach((caseItem, i) => {
+      let candidateDate = moment(caseItem.candidateDate);
+      let result = nbd.FindBizDate(candidateDate, holidays, "BACKWARDS");
+
+      console.log("RESULT", caseItem, {result});
+      assert.equal(result.isSame(moment(caseItem.expectedResult)), true);
+    });
+  });
+
 });
 
 describe("findNextBizDate(baseDate, holidaysArray, offset, direction)", () => {
@@ -112,7 +105,7 @@ describe("findNextBizDate(baseDate, holidaysArray, offset, direction)", () => {
       {baseDate: "2020-12-19", offset: 10 /* WW1234HWWH567HWWH890  */, expectedResult: "2021-01-07"},
       {baseDate: "2020-12-19", offset: 11 /* WW1234HWWH567HWWH8901 */, expectedResult: "2021-01-08"},
 
-      {baseDate: "2020-12-24", offset: 4 /* WW1234HWWH567HWWH8901 */, expectedResult: "2021-01-05"},
+      {baseDate: "2020-12-24", offset: 4 /* WW1234HWWH567HWWH8901 */, expectedResult: "2021-01-05"}
     ];
 
     let results = [];
@@ -127,7 +120,7 @@ describe("findNextBizDate(baseDate, holidaysArray, offset, direction)", () => {
     });
   });
 
-  it("Should be able to handle offset backward cases", () => {
+  it("Should be able to handle offset COUNTING backward cases", () => {
     let backwardsCases = [
       {baseDate: "2020-12-30", offset: 0 /*                      0  */, expectedResult: "2020-12-30"},
       {baseDate: "2020-12-30", offset: 1 /*                     10  */, expectedResult: "2020-12-29"},
@@ -187,7 +180,7 @@ describe("findNextBizDate(baseDate, holidaysArray, offset, direction)", () => {
 
     let volumeTestItem = moment("2020-01-01");
     let results = [];
-    for (vt = 0; vt < 365*targetYears; vt++) {
+    for (vt = 0; vt < 365 * targetYears; vt++) {
       volumeTestItem = moment(volumeTestItem.add(1, "days"));
       result = nbd.FindNextBizDate(volumeTestItem, holidays, targetFFDays, "FORWARD");
       results.push({volumeTestItem, result});
@@ -203,9 +196,9 @@ describe("findNextBizDate(baseDate, holidaysArray, offset, direction)", () => {
       let volumeTestItem = "2020-12-25";
       let result = nbd.FindNextBizDate(volumeTestItem, holidays, 15, "FORWARD");
       assert.equal(result.isSame(moment("2021-01-20")), true);
-      counter = i;  
+      counter = i;
     }
-    
+
     assert.equal(counter, 9999);
   });
 });
