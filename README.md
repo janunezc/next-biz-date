@@ -1,6 +1,9 @@
 # next-biz-date
 Provides a comprehensive way to find next business day by skipping an array of target (previously sorted) holidays and weekends.
 
+See this spreadsheet for business case scenarios.
+https://docs.google.com/spreadsheets/d/1JVSHopDc70iANjbfusDmohxIt0Tey9_lo9BhF5ZiEpE
+
 # example test:
 
 ```
